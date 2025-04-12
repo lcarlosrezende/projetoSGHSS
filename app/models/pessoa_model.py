@@ -13,4 +13,6 @@ class Pessoa(Base):
     token_de_acesso = Column(String(255))
     funcao = Column(String(20), default="paciente") 
     paciente = relationship("Paciente", back_populates="pessoa", uselist=False, cascade="all, delete-orphan")
-
+    # doutor = relationship("Doutor", back_populates="pessoa", cascade="all, delete-orphan")
+    # doutores = relationship("Doutor", back_populates="pessoa") 
+    

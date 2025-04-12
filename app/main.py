@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.views import pessoa_view, paciente_view
+from app.views import pessoa_view, paciente_view, doutor_view
 from app.core.database import Base, engine
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import OAuth2PasswordBearer
@@ -40,3 +40,4 @@ app.openapi = custom_openapi
 # Rotas
 app.include_router(pessoa_view.router, prefix="/api", tags=["Pessoas"])
 app.include_router(paciente_view.router, prefix="/api/pacientes", tags=["Pacientes"])
+app.include_router(doutor_view.router)

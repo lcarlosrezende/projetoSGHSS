@@ -12,6 +12,11 @@ TOKEN_EXPIRE_MINUTES = 60
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
+from passlib.context import CryptContext
+
+# Criação do contexto para criptografia de senha
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 def criar_token(pessoa: Pessoa):
     expira = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
     payload = {
@@ -48,3 +53,9 @@ def usuario_paciente(pessoa: Pessoa = Depends(verificar_token)):
     if pessoa.funcao != "paciente":
         raise HTTPException(status_code=403, detail="Acesso restrito a pacientes")
     return pessoa
+
+def gerar_hash(senha):
+    return pwd_context.hash(senha)
+
+def verificar_senha(senha_plain, senha_hash):
+    return pwd_context.verify(senha_plain, senha_hash)
