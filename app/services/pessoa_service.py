@@ -3,11 +3,11 @@ from app.models.pessoa_model import Pessoa
 from app.repositories import pessoa_repository
 from app.core.auth import gerar_hash, criar_token, verificar_senha
 
-def registrar_usuario(db: Session, nome, email, senha, contato):
+def registrar_usuario(db: Session, nome, email, senha, contato, tipo):
     if pessoa_repository.buscar_por_email(db, email):
         return None, "Usuário já existe."
     senha_hash = gerar_hash(senha)
-    nova_pessoa = Pessoa(nome=nome, email=email, senha_criptografada=senha_hash, contato=contato)
+    nova_pessoa = Pessoa(nome=nome, email=email, senha_criptografada=senha_hash, contato=contato, tipo=tipo)
     pessoa = pessoa_repository.criar_pessoa(db, nova_pessoa)
     return pessoa, None
 

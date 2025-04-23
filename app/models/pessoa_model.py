@@ -11,7 +11,7 @@ class Pessoa(Base):
     email = Column(String(255), unique=True)
     senha_criptografada = Column(String(255), nullable=False)
     token_de_acesso = Column(String(255))
-    funcao = Column(String(20), default="paciente") 
+    tipo = Column(String(20), default="paciente") 
     paciente = relationship("Paciente", back_populates="pessoa", uselist=False, cascade="all, delete-orphan")
     # doutor = relationship("Doutor", back_populates="pessoa", cascade="all, delete-orphan")
     # doutores = relationship("Doutor", back_populates="pessoa") 

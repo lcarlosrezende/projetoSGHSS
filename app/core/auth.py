@@ -23,7 +23,7 @@ def criar_token(pessoa: Pessoa):
         "sub": str(pessoa.pessoa_id),
         "nome": pessoa.nome,
         "email": pessoa.email,
-        "funcao": pessoa.funcao,
+        "tipo": pessoa.tipo,
         "exp": expira
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
@@ -40,17 +40,17 @@ def verificar_token(token: str = Depends(oauth2_scheme), db: Session = Depends(g
         raise HTTPException(status_code=401, detail="Token inválido ou expirado")
 
 def usuario_admin(pessoa: Pessoa = Depends(verificar_token)):
-    if pessoa.funcao != "admin":
+    if pessoa.tipo != "admin":
         raise HTTPException(status_code=403, detail="Acesso restrito a administradores")
     return pessoa
 
 def usuario_doutor(pessoa: Pessoa = Depends(verificar_token)):
-    if pessoa.funcao != "doutor":
+    if pessoa.tipo != "doutor":
         raise HTTPException(status_code=403, detail="Acesso restrito a doutores")
     return pessoa
 
 def usuario_paciente(pessoa: Pessoa = Depends(verificar_token)):
-    if pessoa.funcao != "paciente":
+    if pessoa.tipo != "paciente":
         raise HTTPException(status_code=403, detail="Acesso restrito a pacientes")
     return pessoa
 
